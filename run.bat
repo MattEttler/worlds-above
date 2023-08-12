@@ -1,0 +1,1 @@
+%blitzpath% main.bb -o main
