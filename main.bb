@@ -5,47 +5,42 @@ Include "entityManager.bb"
 
 ; Systems
 Include "systems/rectangleSystem.bb"
+Include "systems/characterSystem.bb"
+Include "systems/playerSystem.bb"
 
-Local entities.Character[numberOfEntities]
+Local entities%[numberOfEntities]
 SetBuffer(BackBuffer())
 
 Graphics(screenWidth, screenHeight)
 
 Text(0, 0, "Welcome to Deep-Sea!")
 
-Local characters.Character[numberOfCharacters]
+BootstrapCharacters()
+Local playerControlledCharacterId = 0;
 
-For i=0 To numberOfCharacters-1
-    character.Character = New Character
-    character\health = 100
-    character\x = Rand(0, 100)
-    character\y = Rand(0, 100)
-    character\boundingBox = New BoundingBox
-    character\boundingBox\height = 1
-    character\boundingBox\width = 1
-    character\rectangle = New Rectangle
-    character\rectangle\height = character\boundingBox\height
-    character\rectangle\width = character\boundingBox\width
-    character\rectangle\x = character\x
-    character\rectangle\y = character\y
-    character\rectangle\solid = 1
-    character\rectangle\red = 255
-    character\rectangle\green = 255
-    character\rectangle\blue = 0
-    characters[i] = character
-Next
+logicTimer = CreateTimer(30)
+
+local fortress.Rectangle = New Rectangle
+fortress\width = 10
+fortress\height = 10
+fortress\x = (mapSize-fortress\width)/2
+fortress\y = (mapSize-fortress\height)/2
+fortress\red = 0
+fortress\green = 0
+fortress\ blue = 255
+fortress\solid = 0
 
 While Not KeyHit(1)
-    Cls()
-    UpdateRectangles()
-    ; Draw Underwater Fortress
-    fortressHeight = 80
-    fortressWidth = 80
-    Color(0, 0, 255)
-    Rect((screenWidth-fortressWidth)/2,(screenHeight-fortressHeight)/2,fortressWidth,fortressHeight,0)
-    Color(255, 255, 255)
-    For i=0 To numberOfCharacters-1
-        character = characters[i]
-    Next
-    Flip()
+	; Update Logic
+	WaitTimer(logicTimer)
+	UpdatePlayer()
+
+
+	; Update Rendering
+	Cls()
+
+	UpdateRectangles()
+	UpdateCharacters(fortress)
+	
+	Flip()
 Wend
