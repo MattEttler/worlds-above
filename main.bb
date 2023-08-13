@@ -11,7 +11,7 @@ SetBuffer(BackBuffer())
 
 Graphics(screenWidth, screenHeight)
 
-Text(10*10, 0, "Welcome to Deep-Sea!")
+Text(0, 0, "Welcome to Deep-Sea!")
 
 Local characters.Character[numberOfCharacters]
 
