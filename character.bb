@@ -2,7 +2,7 @@ Include "components/rectangle.bb"
 Include "boundingBox.bb"
 
 Type Character
-Field health%
+Field health%, maxHealth%
 Field x%
 Field y%
 Field rectangle.Rectangle 
