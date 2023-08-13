@@ -29,6 +29,9 @@ For i=0 To numberOfCharacters-1
     character\rectangle\x = character\x
     character\rectangle\y = character\y
     character\rectangle\solid = 1
+    character\rectangle\red = 255
+    character\rectangle\green = 255
+    character\rectangle\blue = 0
     characters[i] = character
 Next
 
