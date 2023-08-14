@@ -7,6 +7,7 @@ Include "entityManager.bb"
 Include "systems/rectangleSystem.bb"
 Include "systems/characterSystem.bb"
 Include "systems/playerSystem.bb"
+Include "systems/containableSystem.bb"
 
 Local entities%[numberOfEntities]
 SetBuffer(BackBuffer())
@@ -16,6 +17,7 @@ Graphics(screenWidth, screenHeight)
 Text(0, 0, "Welcome to Deep-Sea!")
 
 BootstrapCharacters()
+BootstrapContainables()
 Local playerControlledCharacterId = 0;
 
 logicTimer = CreateTimer(30)
