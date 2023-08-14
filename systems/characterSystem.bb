@@ -23,6 +23,7 @@ character\y = Rand(0, 100)
 	character\rectangle\red = 0
 	character\rectangle\green = 255
 	character\rectangle\blue = 0
+	character\containableCount = 0
 	characters(i) = character
 	Next
 
@@ -43,5 +44,11 @@ Function UpdateCharacters(fortress.Rectangle)
 			End If
 		character\rectangle\red = (255 / character\maxHealth) * (character\maxHealth - character\health)
 
+		For containable.Containable = Each Containable
+			If(RectsOverlap(character\rectangle\x, character\rectangle\y, character\rectangle\width, character\rectangle\height, containable\rectangle\x, containable\rectangle\y, containable\rectangle\width, containable\rectangle\height))
+				character\containableCount = character\containableCount + 1
+				DestroyContainable(containable)
+			End If
+		Next
 	Next
 End Function

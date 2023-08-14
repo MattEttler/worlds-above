@@ -43,6 +43,7 @@ While Not KeyHit(1)
 
 	UpdateRectangles()
 	UpdateCharacters(fortress)
-	
+	RenderHUD()
+
 	Flip()
 Wend

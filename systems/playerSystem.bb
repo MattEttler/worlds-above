@@ -11,3 +11,8 @@ Function UpdatePlayer()
         characters(playerControlledCharacterId)\rectangle\y = characters(playerControlledCharacterId)\rectangle\y + 1
     End If
 End Function
+
+Function RenderHUD()
+	Color(255, 255, 255)
+	Text(0, 0, "Items: " + characters(playerControlledCharacterId)\containableCount)
+End Function
