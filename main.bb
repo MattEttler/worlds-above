@@ -20,7 +20,7 @@ BootstrapCharacters()
 BootstrapContainables()
 Local playerControlledCharacterId = 0;
 
-logicTimer = CreateTimer(30)
+logicTimer = CreateTimer(60)
 
 local fortress.Rectangle = New Rectangle
 fortress\width = 10
