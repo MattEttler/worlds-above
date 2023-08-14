@@ -30,7 +30,7 @@ character\y = Rand(0, 100)
 	; designate the first character as our character.
 	characters(playerControlledCharacterId)\rectangle\x = 40
 	characters(playerControlledCharacterId)\rectangle\y = 40
-	characters(playerControlledCharacterId)\rectangle\red = 0
+	characters(playerControlledCharacterId)\rectangle\red = 255
 	characters(playerControlledCharacterId)\rectangle\green = 0
 	characters(playerControlledCharacterId)\rectangle\blue = 255
 	End Function
@@ -42,7 +42,7 @@ Function UpdateCharacters(fortress.Rectangle)
 			Else If character\health < character\maxHealth
 				character\health = character\health +1
 			End If
-		character\rectangle\red = (255 / character\maxHealth) * (character\maxHealth - character\health)
+			character\rectangle\red = 255 - ((255 / character\maxHealth) * (character\maxHealth - character\health))
 
 		For containable.Containable = Each Containable
 			If(RectsOverlap(character\rectangle\x, character\rectangle\y, character\rectangle\width, character\rectangle\height, containable\rectangle\x, containable\rectangle\y, containable\rectangle\width, containable\rectangle\height))
