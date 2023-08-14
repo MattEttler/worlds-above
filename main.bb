@@ -37,16 +37,22 @@ fortress\blue = 255
 fortress\solid = 0
 
 While(Not KeyHit(1))
+	WaitTimer(logicTimer)
 	If(GameState = GAMEBOOTING)
 		BootstrapCharacters()
 		BootstrapContainables()
 		GameState = GAMERUNNING
+	Else If(GameState = GAMEOVER)
+		If(KeyHit(28))
+			GameState = GAMEBOOTING
+		End If 
 	End If
 
 	; Update Logic
-	WaitTimer(logicTimer)
-	UpdatePlayer()
-
+	If(GameState = GAMERUNNING)
+		UpdatePlayer()
+	End If
+	
 	; Update Rendering
 	Cls()
 
@@ -55,5 +61,8 @@ While(Not KeyHit(1))
 	UpdateCharacters(fortress)
 	RenderHUD()
 	
+	If(GameState = GAMEOVER)
+		Text(screenWidth/2, screenHeight/2, "AQUANAUT DIED. Hit <Enter> to restart.", True, True)
+	End If
 	Flip()
 Wend
