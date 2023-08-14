@@ -19,3 +19,4 @@ End If
 Const numberOfBlueprints = 100
 
 Const CONTAINABLE_HEALTH_BOOST = 10
+Const maxContainables = 40
