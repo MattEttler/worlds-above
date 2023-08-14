@@ -51,6 +51,8 @@ Function UpdateCharacters(fortress.Rectangle)
 			If(RectsOverlap(character\rectangle\x, character\rectangle\y, character\rectangle\width, character\rectangle\height, containable\rectangle\x, containable\rectangle\y, containable\rectangle\width, containable\rectangle\height))
 				character\containableCount = character\containableCount + 1
 				DeleteContainable(containable)
+				character\maxHealth = character\maxHealth + CONTAINABLE_HEALTH_BOOST
+				character\health = character\maxHealth
 			End If
 		Next
 	Next

@@ -19,4 +19,5 @@ End Function
 Function RenderHUD()
 	Color(255, 255, 255)
 	Text(0, 0, "Items: " + characters(playerControlledCharacterId)\containableCount)
+	Text(0, 10, "Health: " + characters(playerControlledCharacterId)\health + "/" + characters(playerControlledCharacterId)\maxHealth)
 End Function
