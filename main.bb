@@ -29,7 +29,7 @@ fortress\x = (mapSize-fortress\width)/2
 fortress\y = (mapSize-fortress\height)/2
 fortress\red = 0
 fortress\green = 0
-fortress\ blue = 255
+fortress\blue = 255
 fortress\solid = 0
 
 While Not KeyHit(1)
