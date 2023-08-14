@@ -20,8 +20,6 @@ SetBuffer(BackBuffer())
 
 Graphics(screenWidth, screenHeight)
 
-Text(0, 0, "Welcome to Deep-Sea!")
-
 Local playerControlledCharacterId = 0;
 
 logicTimer = CreateTimer(60)
@@ -42,6 +40,9 @@ While(Not KeyHit(1))
 		BootstrapCharacters()
 		BootstrapContainables()
 		GameState = GAMERUNNING
+		Cls()
+		Text(screenWidth/2, screenHeight/2, "WELCOME TO WORLDS-BELOW.", True, True)
+		Delay(1000)
 	Else If(GameState = GAMEOVER)
 		If(KeyHit(28))
 			GameState = GAMEBOOTING
