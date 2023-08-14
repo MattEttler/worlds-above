@@ -5,6 +5,9 @@ Include "character.bb"
 Dim characters.Character(numberOfEntities)
 
 Function BootstrapCharacters()
+	DeleteAllCharacters()
+	Dim characters.Character(numberOfEntities)
+
 	For i=0 To numberOfCharacters-1
 	character.Character = New Character
 	character\health = 100
@@ -47,7 +50,7 @@ Function UpdateCharacters(fortress.Rectangle)
 		For containable.Containable = Each Containable
 			If(RectsOverlap(character\rectangle\x, character\rectangle\y, character\rectangle\width, character\rectangle\height, containable\rectangle\x, containable\rectangle\y, containable\rectangle\width, containable\rectangle\height))
 				character\containableCount = character\containableCount + 1
-				DestroyContainable(containable)
+				DeleteContainable(containable)
 			End If
 		Next
 	Next

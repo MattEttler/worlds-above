@@ -3,7 +3,13 @@ Type Containable
 	Field containable_type$
 End Type
 
-Function DestroyContainable(containable.Containable)
+Function DeleteContainable(containable.Containable)
 	Delete containable\rectangle
 	Delete containable
+End Function
+
+Function DeleteAllContainables()
+	For containable.Containable = Each Containable
+		DeleteContainable(containable)
+	Next
 End Function
