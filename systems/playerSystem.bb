@@ -1,13 +1,13 @@
 Include "systems/characterSystem.bb"
 
 Function UpdatePlayer()
-    If(KeyDown(200))
+    If(KeyHit(200))
         characters(playerControlledCharacterId)\rectangle\y = characters(playerControlledCharacterId)\rectangle\y - 1
-    Else If(KeyDown(205))
+    Else If(KeyHit(205))
         characters(playerControlledCharacterId)\rectangle\x = characters(playerControlledCharacterId)\rectangle\x + 1 
-    Else If(KeyDown(203))
+    Else If(KeyHit(203))
         characters(playerControlledCharacterId)\rectangle\x = characters(playerControlledCharacterId)\rectangle\x - 1 
-    Else If(KeyDown(208))
+    Else If(KeyHit(208))
         characters(playerControlledCharacterId)\rectangle\y = characters(playerControlledCharacterId)\rectangle\y + 1
     End If
 End Function
