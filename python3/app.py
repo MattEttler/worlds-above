@@ -14,12 +14,8 @@ import boundingbox
 # Import our game-systems.
 import boundingboxsystem
 
-# Include our graphics library and configurations
+from config import config
 import pygame
-import configparser
-
-config = configparser.ConfigParser()
-config.read('config.ini')
 
 screenWidth = config.getint('Graphics', 'ScreenWidth')
 screenHeight = config.getint('Graphics', 'ScreenHeight')
@@ -29,6 +25,9 @@ pygame.init()
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 clock = pygame.time.Clock()
 running = True
+
+import charactersystem
+charactersystem.bootstrap_characters(mapSize)
 
 # Create a Fortress
 fortressWidth = config.getint('Fortress', 'Width')
