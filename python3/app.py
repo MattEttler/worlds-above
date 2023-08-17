@@ -8,13 +8,8 @@ components_dir = os.path.join( app_dir, 'components')
 sys.path.append( systems_dir )
 sys.path.append( components_dir )
 
-# Import our game-components.
-import boundingbox
-
-# Import our game-systems.
-import boundingboxsystem
-
 from config import config
+import entitymanager
 import pygame
 
 screenWidth = config.getint('Graphics', 'ScreenWidth')
@@ -26,8 +21,14 @@ screen = pygame.display.set_mode((screenWidth, screenHeight))
 clock = pygame.time.Clock()
 running = True
 
+# Import our game-components.
+import boundingbox
+
+# Import our game-systems.
+import boundingboxsystem
 import charactersystem
-charactersystem.bootstrap_characters(mapSize)
+
+# Initialize the state of the game
 
 # Create a Fortress
 fortressWidth = config.getint('Fortress', 'Width')
@@ -36,13 +37,17 @@ fortressRed = config.getint('Fortress', 'Red')
 fortressGreen = config.getint('Fortress', 'Green')
 fortressBlue = config.getint('Fortress', 'Blue')
 fortress = boundingbox.BoundingBox((mapSize-fortressWidth)/2, (mapSize-fortressHeight)/2, fortressWidth, fortressHeight, 0, fortressRed, fortressGreen, fortressBlue)
+boundingbox.bounding_boxes[entitymanager.create_entity()] = fortress
 
-boundingbox.bounding_boxes[0] = fortress
+# Populate characters on the map
+charactersystem.bootstrap_characters(mapSize)
 
 while running:
     for event in pygame.event.get():
         if(event.type == pygame.QUIT):
             running = False
+
+    charactersystem.update_characters(fortress)
 
     screen.fill((10,10,80))
 
