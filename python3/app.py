@@ -28,7 +28,10 @@ import boundingbox
 import boundingboxsystem
 import charactersystem
 
-# Initialize the state of the game
+
+####################################
+# Initialize the state of the game #
+####################################
 
 # Create a Fortress
 fortressWidth = config.getint('Fortress', 'Width')
@@ -42,17 +45,22 @@ boundingbox.bounding_boxes[entitymanager.create_entity()] = fortress
 # Populate characters on the map
 charactersystem.bootstrap_characters(mapSize)
 
+
+#####################
+# MAIN PROGRAM LOOP #
+#####################
+
 while running:
     for event in pygame.event.get():
         if(event.type == pygame.QUIT):
             running = False
 
+    # Logical Updates
     charactersystem.update_characters(fortress)
 
+    # Graphical Updates
     screen.fill((10,10,80))
-
     boundingboxsystem.render(screen, screenWidth/mapSize, screenHeight/mapSize)
-
     pygame.display.flip()
 
     clock.tick(60)
