@@ -52,9 +52,13 @@ charactersystem.bootstrap_characters(mapSize)
 #####################
 
 while running:
+    # Check for program termination
     for event in pygame.event.get():
         if(event.type == pygame.QUIT):
             running = False
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_ESCAPE]:
+        running = False
 
     # Logical Updates
     charactersystem.update_characters(fortress, delta_time_milliseconds)
