@@ -20,6 +20,7 @@ pygame.init()
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 clock = pygame.time.Clock()
 running = True
+delta_time_milliseconds = 0
 
 # Import our game-components.
 import boundingbox
@@ -56,13 +57,12 @@ while running:
             running = False
 
     # Logical Updates
-    charactersystem.update_characters(fortress)
+    charactersystem.update_characters(fortress, delta_time_milliseconds)
 
     # Graphical Updates
     screen.fill((10,10,80))
     boundingboxsystem.render(screen, screenWidth/mapSize, screenHeight/mapSize)
     pygame.display.flip()
 
-    clock.tick(60)
-
+    delta_time_milliseconds = clock.tick(60)
 pygame.quit()
