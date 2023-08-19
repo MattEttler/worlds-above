@@ -20,6 +20,7 @@ mapSize = config.getint('Graphics', 'MapSize')
 
 pygame.init()
 screen = pygame.display.set_mode((screenWidth, screenHeight))
+hud_font = pygame.freetype.Font(None, 20)
 clock = pygame.time.Clock()
 RUNNING = True
 DELTA_TIME_MILLISECONDS = 0
@@ -76,6 +77,7 @@ while RUNNING:
     # Graphical Updates
     screen.fill((10, 10, 80))
     boundingboxsystem.render(screen, screenWidth/mapSize, screenHeight/mapSize)
+    playersystem.render_hud(playerId, hud_font, screen)
     pygame.display.flip()
 
     DELTA_TIME_MILLISECONDS = clock.tick(60)

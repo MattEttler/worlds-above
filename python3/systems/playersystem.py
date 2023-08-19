@@ -1,3 +1,4 @@
+import math
 from config import config
 import pygame
 from character import Character, characters
@@ -34,3 +35,11 @@ def update_player(playerId: int, lapsed_milliseconds: int):
         player_character.y = player_character.y - (base_movement_speed_per_millisecond * lapsed_milliseconds)
     if keys[pygame.K_s]:
         player_character.y = player_character.y + (base_movement_speed_per_millisecond * lapsed_milliseconds)
+
+'''Render the heads up display for a particular player.'''
+def render_hud(player_id, font, screen):
+    player_character = characters[player_id]
+    text = font.render(
+        f'HEALTH: {math.ceil(player_character.health)}/{player_character.maxHealth}',
+        fgcolor=(255, 255, 255))
+    screen.blit(text[0], [0, 0])
