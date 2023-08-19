@@ -20,6 +20,7 @@ def create_character(character: Character, bounding_box: BoundingBox):
     entity = create_entity()    
     characters[entity] = character
     bounding_boxes[entity] = bounding_box
+    return entity
 
 def bootstrap_characters(mapSize):
     for i in range(number_of_characters):

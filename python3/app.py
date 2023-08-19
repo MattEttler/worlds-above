@@ -30,6 +30,7 @@ import boundingbox
 # Import our game-systems.
 import boundingboxsystem
 import charactersystem
+import playersystem
 
 
 ####################################
@@ -52,6 +53,8 @@ boundingbox.bounding_boxes[entitymanager.create_entity()] = fortress
 # Populate characters on the map
 charactersystem.bootstrap_characters(mapSize)
 
+# Create player controlled character
+playerId = playersystem.bootstrap(mapSize)
 
 #####################
 # MAIN PROGRAM LOOP #
@@ -68,6 +71,7 @@ while RUNNING:
 
     # Logical Updates
     charactersystem.update_characters(fortress, DELTA_TIME_MILLISECONDS)
+    playersystem.update_player(playerId, DELTA_TIME_MILLISECONDS)
 
     # Graphical Updates
     screen.fill((10, 10, 80))
