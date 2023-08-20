@@ -1,18 +1,21 @@
-'''Entry Script. This is the main scrupt which is intended to be run to play
+'''Entry Script. This is the main script which is intended to be run to play
 worlds above'''
+
 # Inlude our component and system folders into the module path.
 import os
 import sys
+import time
 import pygame
 from config import config
 
 import entitymanager
+from gamestatemanager import GameState
+import gamestatemanager
 app_dir = os.path.dirname(__file__)
 systems_dir = os.path.join(app_dir, 'systems')
 components_dir = os.path.join(app_dir, 'components')
 sys.path.append(systems_dir)
 sys.path.append(components_dir)
-
 
 screenWidth = config.getint('Graphics', 'ScreenWidth')
 screenHeight = config.getint('Graphics', 'ScreenHeight')
@@ -51,34 +54,51 @@ fortress = boundingbox.BoundingBox(
         fortressRed, fortressGreen, fortressBlue)
 boundingbox.bounding_boxes[entitymanager.create_entity()] = fortress
 
-# Populate characters on the map
-charactersystem.bootstrap_characters(mapSize)
-
-# Create player controlled character
-playerId = playersystem.bootstrap(mapSize)
-
 #####################
 # MAIN PROGRAM LOOP #
 #####################
-
-while RUNNING:
+while gamestatemanager.game_state is not GameState.QUIT:
     # Check for program termination
     for event in pygame.event.get():
-        if(event.type == pygame.QUIT):
-            RUNNING = False
+        if event.type == pygame.QUIT:
+            gamestatemanager.game_state = GameState.QUIT
+
     keys = pygame.key.get_pressed()
     if keys[pygame.K_ESCAPE]:
-        RUNNING = False
+        gamestatemanager.game_state = GameState.QUIT
 
+    # Bootstrap the game
+    if gamestatemanager.game_state == GameState.BOOTING:
+        charactersystem.bootstrap_characters(mapSize)
+        playerId = playersystem.bootstrap(mapSize)
+        gamestatemanager.game_state = GameState.RUNNING
+        screen.fill((10, 10, 80))
+        welcome_text = hud_font.render(
+                    "WELCOME TO WORLDS ABOVE",
+                    fgcolor=(255, 255, 255)
+                )
+        screen.blit(welcome_text[0], [(screenWidth-welcome_text[1].width)/2, screenHeight/2])
+        pygame.display.flip()
+        time.sleep(1)
+    elif gamestatemanager.game_state == GameState.OVER:
+        if keys[pygame.K_RETURN]:
+            gamestatemanager.game_state = GameState.BOOTING
+        over_text = hud_font.render(
+                    "AQUANAUT DIED. Hit <Enter> to restart.",
+                    fgcolor=(255, 255, 255)
+                )
+        screen.blit(over_text[0], [(screenWidth-over_text[1].width)/2, screenHeight/2])
+        pygame.display.flip()
     # Logical Updates
-    charactersystem.update_characters(fortress, DELTA_TIME_MILLISECONDS)
-    playersystem.update_player(playerId, DELTA_TIME_MILLISECONDS)
+    elif gamestatemanager.game_state == GameState.RUNNING:
+        charactersystem.update_characters(fortress, DELTA_TIME_MILLISECONDS)
+        playersystem.update_player(playerId, DELTA_TIME_MILLISECONDS)
 
-    # Graphical Updates
-    screen.fill((10, 10, 80))
-    boundingboxsystem.render(screen, screenWidth/mapSize, screenHeight/mapSize)
-    playersystem.render_hud(playerId, hud_font, screen)
-    pygame.display.flip()
+        # Graphical Updates
+        screen.fill((10, 10, 80))
+        boundingboxsystem.render(screen, screenWidth/mapSize, screenHeight/mapSize)
+        playersystem.render_hud(playerId, hud_font, screen)
+        pygame.display.flip()
 
-    DELTA_TIME_MILLISECONDS = clock.tick(60)
+        DELTA_TIME_MILLISECONDS = clock.tick(60)
 pygame.quit()

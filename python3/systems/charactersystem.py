@@ -2,7 +2,7 @@ import random
 from config import config
 from character import Character, characters
 from boundingbox import BoundingBox, bounding_boxes
-from entitymanager import create_entity 
+from entitymanager import create_entity, clear_entities
 from boundingboxsystem import overlaps
 
 # load character configurations
@@ -16,13 +16,23 @@ blue = config.getint('Characters', 'CharacterBlue')
 outline = config.getint('Characters', 'CharacterOutlineSize')
 seconds_to_suffocate = config.getint('Characters', 'CharacterSecondsToSuffocate')
 
+
 def create_character(character: Character, bounding_box: BoundingBox):
-    entity = create_entity()    
+    entity = create_entity()
     characters[entity] = character
     bounding_boxes[entity] = bounding_box
     return entity
 
+
+def delete_characters(player_ids={}):
+    clear_entities(player_ids)
+    for i in player_ids:
+        characters.pop(i, None)
+        bounding_boxes.pop(i, None)
+
+
 def bootstrap_characters(mapSize):
+    delete_characters(characters.keys())
     for i in range(number_of_characters):
         character = Character(starting_max_health, starting_max_health, 0)
         bounding_box = BoundingBox(random.randint(0, mapSize), random.randint(0, mapSize), width, height, outline, red, green, blue) 

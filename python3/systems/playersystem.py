@@ -5,6 +5,7 @@ from character import Character, characters
 from boundingbox import BoundingBox, bounding_boxes
 import charactersystem
 import entitymanager
+import gamestatemanager
 
 def bootstrap(mapSize: int):
     playerCharacter = Character()
@@ -20,23 +21,36 @@ def bootstrap(mapSize: int):
             playerBox
             )
 
-base_movement_speed_per_second = config.getint('Player', 'PlayerBaseMovementSpeedPerSecond')
+
+base_movement_speed_per_second = config.getint(
+        'Player',
+        'PlayerBaseMovementSpeedPerSecond')
 base_movement_speed_per_millisecond = base_movement_speed_per_second / 1000
 
-def update_player(playerId: int, lapsed_milliseconds: int):
+'''Process logical updates for a particular player.'''
+
+
+def update_player(player_id: int, lapsed_milliseconds: int):
     global bounding_boxes
-    player_character = bounding_boxes[playerId]
+    player_box = bounding_boxes[player_id]
+    player_character = characters[player_id]
     keys = pygame.key.get_pressed()
     if keys[pygame.K_a]:
-        player_character.x = player_character.x - (base_movement_speed_per_millisecond * lapsed_milliseconds)
+        player_box.x = player_box.x - (base_movement_speed_per_millisecond * lapsed_milliseconds)
     if keys[pygame.K_d]:
-        player_character.x = player_character.x + (base_movement_speed_per_millisecond * lapsed_milliseconds)
+        player_box.x = player_box.x + (base_movement_speed_per_millisecond * lapsed_milliseconds)
     if keys[pygame.K_w]:
-        player_character.y = player_character.y - (base_movement_speed_per_millisecond * lapsed_milliseconds)
+        player_box.y = player_box.y - (base_movement_speed_per_millisecond * lapsed_milliseconds)
     if keys[pygame.K_s]:
-        player_character.y = player_character.y + (base_movement_speed_per_millisecond * lapsed_milliseconds)
+        player_box.y = player_box.y + (base_movement_speed_per_millisecond * lapsed_milliseconds)
+
+    if player_character.health <= 0:
+        gamestatemanager.game_state = gamestatemanager.GameState.OVER
+
 
 '''Render the heads up display for a particular player.'''
+
+
 def render_hud(player_id, font, screen):
     player_character = characters[player_id]
     text = font.render(
