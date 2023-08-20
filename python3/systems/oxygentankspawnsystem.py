@@ -3,6 +3,7 @@ import random
 from entitymanager import create_entity
 from oxygentank import OxygenTank, oxygentanks
 from boundingbox import BoundingBox, bounding_boxes
+from containable import Containable, containables
 
 COUNT = config.getint('OXYGEN', 'O2TankCount')
 CAPACITY_M3 = config.getint('OXYGEN', 'O2TankCapacityM3')
@@ -31,6 +32,7 @@ def spawn_oxygen_tanks(mapSize: int):
                 GREEN,
                 BLUE
                 )
+        containables[entity] = Containable()
 
 
 '''Clear out all o2 tanks and respawn new ones.'''
