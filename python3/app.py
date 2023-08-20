@@ -36,6 +36,7 @@ import boundingboxsystem
 import charactersystem
 import playersystem
 import oxygentankspawnsystem
+import charactercontainablecollisionsystem
 
 ####################################
 # Initialize the state of the game #
@@ -94,6 +95,8 @@ while gamestatemanager.game_state is not GameState.QUIT:
     elif gamestatemanager.game_state == GameState.RUNNING:
         charactersystem.update_characters(fortress, DELTA_TIME_MILLISECONDS)
         playersystem.update_player(playerId, DELTA_TIME_MILLISECONDS)
+        charactercontainablecollisionsystem \
+            .update_character_containable_collisions()
 
         # Graphical Updates
         screen.fill((10, 10, 80))
