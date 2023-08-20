@@ -19,6 +19,6 @@ def update_character_containable_collisions():
                     bounding_boxes[containable_entity]
                     ):
                 # add the containable to the character inventory
-                containers[char_entity].entities.append(containable_entity)
+                containers[char_entity].entities.add(containable_entity)
                 # remove the item from the map
                 bounding_boxes.pop(containable_entity, None)

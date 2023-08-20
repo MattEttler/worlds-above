@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Container():
-    entities: list[int]
+    entities: set[int]
 
 
 containers: dict[Container] = {}

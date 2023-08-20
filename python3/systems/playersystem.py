@@ -4,6 +4,7 @@ import pygame
 from character import Character, characters
 from boundingbox import BoundingBox, bounding_boxes
 from container import Container, containers
+from oxygentank import oxygen_tanks
 import charactersystem
 import entitymanager
 import gamestatemanager
@@ -24,7 +25,7 @@ def bootstrap(mapSize: int):
     playerBox.outline_size = 0
     playerBox.x = mapSize/2
     playerBox.y = mapSize/2
-    playerInventory = Container([])
+    playerInventory = Container(set())
     return charactersystem.create_character(
             playerCharacter,
             playerBox,
@@ -63,7 +64,17 @@ def update_player(player_id: int, lapsed_milliseconds: int):
 
 def render_hud(player_id, font, screen):
     player_character = characters[player_id]
-    text = font.render(
+    player_o2_tanks =  (
+            containers[player_id].entities
+            & oxygen_tanks.keys()
+            )
+    oxygen_capacity_m3 = sum([oxygen_tanks[tank].capacity_m3 for tank in player_o2_tanks])
+    oxygen_volume_m3 = sum([oxygen_tanks[tank].volume_m3 for tank in player_o2_tanks])
+    health_text = font.render(
         f'HEALTH: {math.ceil(player_character.health)}/{player_character.maxHealth}',
         fgcolor=(255, 255, 255))
-    screen.blit(text[0], [0, 0])
+    oxygen_text = font.render(
+        f'O2: {oxygen_capacity_m3}/{oxygen_volume_m3}',
+        fgcolor=(255, 255, 255))
+    screen.blit(health_text[0], [0, 0])
+    screen.blit(oxygen_text[0], [0, oxygen_text[1].height])

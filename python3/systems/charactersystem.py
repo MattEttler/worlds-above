@@ -39,7 +39,7 @@ def bootstrap_characters(mapSize):
     for i in range(number_of_characters):
         character = Character(starting_max_health, starting_max_health, 0)
         bounding_box = BoundingBox(random.randint(0, mapSize), random.randint(0, mapSize), width, height, outline, red, green, blue) 
-        container = Container([])
+        container = Container(set())
         create_character(character, bounding_box, container)
 
 def update_characters(fortress: BoundingBox, lapsed_milliseconds: int):

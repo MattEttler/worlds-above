@@ -1,12 +1,13 @@
 from config import config
 import random
 from entitymanager import create_entity
-from oxygentank import OxygenTank, oxygentanks
+from oxygentank import OxygenTank, oxygen_tanks
 from boundingbox import BoundingBox, bounding_boxes
 from containable import Containable, containables
 
 COUNT = config.getint('OXYGEN', 'O2TankCount')
 CAPACITY_M3 = config.getint('OXYGEN', 'O2TankCapacityM3')
+VOLUME_M3 = config.getint('OXYGEN', 'O2TankVolumeM3')
 WIDTH = config.getint('OXYGEN', 'O2TankWidth')
 HEIGHT = config.getint('OXYGEN', 'O2TankHeight')
 OUTLINE_SIZE = config.getint('OXYGEN', 'O2TankOutlineSize')
@@ -21,7 +22,7 @@ BLUE = config.getint('OXYGEN', 'O2TankBlue')
 def spawn_oxygen_tanks(mapSize: int):
     for i in range(COUNT):
         entity = create_entity()
-        oxygentanks[entity] = OxygenTank(CAPACITY_M3)
+        oxygen_tanks[entity] = OxygenTank(CAPACITY_M3, VOLUME_M3)
         bounding_boxes[entity] = BoundingBox(
                 random.randint(0, mapSize),
                 random.randint(0, mapSize),
@@ -39,7 +40,7 @@ def spawn_oxygen_tanks(mapSize: int):
 
 
 def bootstrap_oxygen_tanks(mapSize):
-    for i in {t for t in oxygentanks.keys()}:
-        oxygentanks.pop(i, None)
+    for i in {t for t in oxygen_tanks.keys()}:
+        oxygen_tanks.pop(i, None)
         bounding_boxes.pop(i, None)
     spawn_oxygen_tanks(mapSize)
