@@ -3,6 +3,7 @@ from config import config
 import pygame
 from character import Character, characters
 from boundingbox import BoundingBox, bounding_boxes
+from container import Container, containers
 import charactersystem
 import entitymanager
 import gamestatemanager
@@ -16,9 +17,11 @@ def bootstrap(mapSize: int):
     playerBox.outline_size = 0
     playerBox.x = mapSize/2
     playerBox.y = mapSize/2
+    playerInventory = Container([])
     return charactersystem.create_character(
             playerCharacter,
-            playerBox
+            playerBox,
+            playerInventory
             )
 
 

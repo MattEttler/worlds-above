@@ -4,6 +4,7 @@ from character import Character, characters
 from boundingbox import BoundingBox, bounding_boxes
 from entitymanager import create_entity, clear_entities
 from boundingboxsystem import overlaps
+from container import Container, containers
 
 # load character configurations
 number_of_characters = config.getint('Characters', 'NumberOfCharacters')
@@ -17,10 +18,11 @@ outline = config.getint('Characters', 'CharacterOutlineSize')
 seconds_to_suffocate = config.getint('Characters', 'CharacterSecondsToSuffocate')
 
 
-def create_character(character: Character, bounding_box: BoundingBox):
+def create_character(character: Character, bounding_box: BoundingBox, container: Container):
     entity = create_entity()
     characters[entity] = character
     bounding_boxes[entity] = bounding_box
+    containers[entity] = container
     return entity
 
 
@@ -29,6 +31,7 @@ def delete_characters(player_ids={}):
     for i in {c for c in player_ids}:
         characters.pop(i, None)
         bounding_boxes.pop(i, None)
+        containers.pop(i, None)
 
 
 def bootstrap_characters(mapSize):
@@ -36,7 +39,8 @@ def bootstrap_characters(mapSize):
     for i in range(number_of_characters):
         character = Character(starting_max_health, starting_max_health, 0)
         bounding_box = BoundingBox(random.randint(0, mapSize), random.randint(0, mapSize), width, height, outline, red, green, blue) 
-        create_character(character, bounding_box)
+        container = Container([])
+        create_character(character, bounding_box, container)
 
 def update_characters(fortress: BoundingBox, lapsed_milliseconds: int):
     global characters
