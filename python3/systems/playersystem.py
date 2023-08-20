@@ -8,9 +8,16 @@ import charactersystem
 import entitymanager
 import gamestatemanager
 
+# load character configurations.
+# TODO: compress this into a common area with the CharacterCreationSystem
+width = config.getint('Characters', 'CharacterWidth')
+height = config.getint('Characters', 'CharacterHeight')
+
 def bootstrap(mapSize: int):
     playerCharacter = Character()
     playerBox = BoundingBox()
+    playerBox.width = width
+    playerBox.height = height
     playerBox.red = 255
     playerBox.blue = 255
     playerBox.green = 0
