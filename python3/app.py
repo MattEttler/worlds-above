@@ -35,7 +35,7 @@ import boundingbox
 import boundingboxsystem
 import charactersystem
 import playersystem
-
+import oxygentankspawnsystem
 
 ####################################
 # Initialize the state of the game #
@@ -69,6 +69,7 @@ while gamestatemanager.game_state is not GameState.QUIT:
 
     # Bootstrap the game
     if gamestatemanager.game_state == GameState.BOOTING:
+        oxygentankspawnsystem.bootstrap_oxygen_tanks(mapSize)
         charactersystem.bootstrap_characters(mapSize)
         playerId = playersystem.bootstrap(mapSize)
         gamestatemanager.game_state = GameState.RUNNING
