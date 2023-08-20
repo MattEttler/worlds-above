@@ -26,7 +26,7 @@ def create_character(character: Character, bounding_box: BoundingBox):
 
 def delete_characters(player_ids={}):
     clear_entities(player_ids)
-    for i in player_ids:
+    for i in {c for c in player_ids}:
         characters.pop(i, None)
         bounding_boxes.pop(i, None)
 
