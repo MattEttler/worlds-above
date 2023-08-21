@@ -44,6 +44,7 @@ def bootstrap_characters(mapSize):
         container = Container(set())
         create_character(character, bounding_box, container)
 
+
 def update_characters(fortress: BoundingBox, lapsed_milliseconds: int):
     global characters
     global bounding_boxes
