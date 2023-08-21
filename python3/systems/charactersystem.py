@@ -5,7 +5,7 @@ from boundingbox import BoundingBox, bounding_boxes
 from entitymanager import create_entity, clear_entities
 from boundingboxsystem import overlaps
 from container import Container, containers
-from oxygentank import OxygenTank, oxygen_tanks
+from oxygentank import oxygen_tanks
 
 # load character configurations
 number_of_characters = config.getint('Characters', 'NumberOfCharacters')
