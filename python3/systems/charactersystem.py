@@ -60,7 +60,7 @@ def update_characters(fortress: BoundingBox, lapsed_milliseconds: int):
             if character_o2_volume > 0:
                 consume_o2_tanks(
                         i,
-                        o2_consumption_per_second / 1000, 
+                        o2_consumption_per_second / 1000,
                         lapsed_milliseconds)
             if character_o2_volume <= 0 and character.health > 0:
                 character.health = max(
