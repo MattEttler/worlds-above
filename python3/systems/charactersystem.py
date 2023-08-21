@@ -5,6 +5,7 @@ from boundingbox import BoundingBox, bounding_boxes
 from entitymanager import create_entity, clear_entities
 from boundingboxsystem import overlaps
 from container import Container, containers
+from oxygentank import OxygenTank, oxygen_tanks
 
 # load character configurations
 number_of_characters = config.getint('Characters', 'NumberOfCharacters')
@@ -16,6 +17,7 @@ green = config.getint('Characters', 'CharacterGreen')
 blue = config.getint('Characters', 'CharacterBlue')
 outline = config.getint('Characters', 'CharacterOutlineSize')
 seconds_to_suffocate = config.getint('Characters', 'CharacterSecondsToSuffocate')
+o2_consumption_per_second = config.getint('Characters', 'CharacterO2ConsumptionPerSecond')
 
 
 def create_character(character: Character, bounding_box: BoundingBox, container: Container):
@@ -49,6 +51,33 @@ def update_characters(fortress: BoundingBox, lapsed_milliseconds: int):
         character = characters[i]
         character_box = bounding_boxes[i]
         damage_per_millisecond = character.maxHealth / seconds_to_suffocate / 1000
-        if(character.health > 0 and not overlaps(fortress, character_box)):
-            character.health = max(0, character.health - (lapsed_milliseconds * damage_per_millisecond))
+        character_o2_volume = sum([
+            oxygen_tanks[t].volume_m3 for t in (
+                oxygen_tanks.keys()
+                & containers[i].entities)
+            ])
+        if not overlaps(fortress, character_box):
+            if character_o2_volume > 0:
+                consume_o2_tanks(
+                        i,
+                        o2_consumption_per_second / 1000, 
+                        lapsed_milliseconds)
+            if character_o2_volume <= 0 and character.health > 0:
+                character.health = max(
+                        0,
+                        character.health
+                        - (lapsed_milliseconds * damage_per_millisecond))
         character_box.red = 255 - ((255 / character.maxHealth) * (character.maxHealth - character.health))
+
+
+'''Consume o2 tanks'''
+
+
+def consume_o2_tanks(character_id, o2_consumption_per_millisecond, lapsed_milliseconds):
+    non_empty_tanks = [
+            oxygen_tanks[tank] for tank in (
+                oxygen_tanks.keys()
+                & containers[character_id].entities)
+            if oxygen_tanks[tank].volume_m3 > 0
+            ]
+    non_empty_tanks[0].volume_m3 = max(0, non_empty_tanks[0].volume_m3 - (lapsed_milliseconds * o2_consumption_per_millisecond))

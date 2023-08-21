@@ -64,7 +64,7 @@ def update_player(player_id: int, lapsed_milliseconds: int):
 
 def render_hud(player_id, font, screen):
     player_character = characters[player_id]
-    player_o2_tanks =  (
+    player_o2_tanks = (
             containers[player_id].entities
             & oxygen_tanks.keys()
             )
@@ -74,7 +74,7 @@ def render_hud(player_id, font, screen):
         f'HEALTH: {math.ceil(player_character.health)}/{player_character.maxHealth}',
         fgcolor=(255, 255, 255))
     oxygen_text = font.render(
-        f'O2: {oxygen_capacity_m3}/{oxygen_volume_m3}',
+        f'O2: {oxygen_capacity_m3}/{math.ceil(oxygen_volume_m3)}',
         fgcolor=(255, 255, 255))
     screen.blit(health_text[0], [0, 0])
     screen.blit(oxygen_text[0], [0, oxygen_text[1].height])
