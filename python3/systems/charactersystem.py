@@ -18,6 +18,7 @@ blue = config.getint('Characters', 'CharacterBlue')
 outline = config.getint('Characters', 'CharacterOutlineSize')
 seconds_to_suffocate = config.getint('Characters', 'CharacterSecondsToSuffocate')
 o2_consumption_per_second = config.getint('Characters', 'CharacterO2ConsumptionPerSecond')
+o2_fill_rate_per_second = config.getint('Fortress', 'FortressO2FillRatePerSecond')
 
 
 def create_character(character: Character, bounding_box: BoundingBox, container: Container):
@@ -57,6 +58,10 @@ def update_characters(fortress: BoundingBox, lapsed_milliseconds: int):
                 oxygen_tanks.keys()
                 & containers[i].entities)
             ])
+        character_o2_capacity = sum([
+            oxygen_tanks[t].capacity_m3 for t in (
+                oxygen_tanks.keys()
+                & containers[i].entities)])
         if not overlaps(fortress, character_box):
             if character_o2_volume > 0:
                 consume_o2_tanks(
@@ -68,6 +73,11 @@ def update_characters(fortress: BoundingBox, lapsed_milliseconds: int):
                         0,
                         character.health
                         - (lapsed_milliseconds * damage_per_millisecond))
+        elif character_o2_volume < character_o2_capacity:
+            fill_o2_tanks(
+                i,
+                o2_fill_rate_per_second / 1000,
+                lapsed_milliseconds)
         character_box.red = 255 - ((255 / character.maxHealth) * (character.maxHealth - character.health))
 
 
@@ -82,3 +92,15 @@ def consume_o2_tanks(character_id, o2_consumption_per_millisecond, lapsed_millis
             if oxygen_tanks[tank].volume_m3 > 0
             ]
     non_empty_tanks[0].volume_m3 = max(0, non_empty_tanks[0].volume_m3 - (lapsed_milliseconds * o2_consumption_per_millisecond))
+
+'''Fill unused capacity of o2 tanks'''
+
+
+def fill_o2_tanks(character_id, o2_fill_per_millisecond, lapsed_milliseconds):
+    non_full_tanks = [
+            oxygen_tanks[tank] for tank in (
+                oxygen_tanks.keys()
+                & containers[character_id].entities)
+            if oxygen_tanks[tank].volume_m3 < oxygen_tanks[tank].capacity_m3
+            ]
+    non_full_tanks[0].volume_m3 = min(non_full_tanks[0].capacity_m3, non_full_tanks[0].volume_m3 + (lapsed_milliseconds * o2_fill_per_millisecond))
