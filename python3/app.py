@@ -37,6 +37,8 @@ import charactersystem
 import playersystem
 import oxygentankspawnsystem
 import charactercontainablecollisionsystem
+import lightingsystem
+import lightspawnsystem
 
 ####################################
 # Initialize the state of the game #
@@ -54,6 +56,8 @@ fortress = boundingbox.BoundingBox(
         0,
         fortressRed, fortressGreen, fortressBlue)
 boundingbox.bounding_boxes[entitymanager.create_entity()] = fortress
+
+lightingsystem.initialize_lighting_surface(mapSize, screenWidth/mapSize, screenHeight/mapSize)
 
 #####################
 # MAIN PROGRAM LOOP #
@@ -73,6 +77,7 @@ while gamestatemanager.game_state is not GameState.QUIT:
         oxygentankspawnsystem.bootstrap_oxygen_tanks(mapSize)
         charactersystem.bootstrap_characters(mapSize)
         playerId = playersystem.bootstrap(mapSize)
+        lightspawnsystem.bootstrap_lights(mapSize)
         gamestatemanager.game_state = GameState.RUNNING
         screen.fill((10, 10, 80))
         welcome_text = hud_font.render(
@@ -101,6 +106,7 @@ while gamestatemanager.game_state is not GameState.QUIT:
         # Graphical Updates
         screen.fill((10, 10, 80))
         boundingboxsystem.render(screen, screenWidth/mapSize, screenHeight/mapSize)
+        lightingsystem.render_lights(screen, screenWidth/mapSize, screenHeight/mapSize)
         playersystem.render_hud(playerId, hud_font, screen)
         pygame.display.flip()
 
