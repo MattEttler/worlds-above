@@ -1,4 +1,3 @@
-import math
 from config import config
 import numpy as N
 import pygame
