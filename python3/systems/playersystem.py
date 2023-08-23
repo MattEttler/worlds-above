@@ -46,13 +46,13 @@ def update_player(player_id: int, lapsed_milliseconds: int):
     player_box = bounding_boxes[player_id]
     player_character = characters[player_id]
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_a]:
+    if keys[pygame.K_LEFT]:
         player_box.x = player_box.x - (base_movement_speed_per_millisecond * lapsed_milliseconds)
-    if keys[pygame.K_d]:
+    if keys[pygame.K_RIGHT]:
         player_box.x = player_box.x + (base_movement_speed_per_millisecond * lapsed_milliseconds)
-    if keys[pygame.K_w]:
+    if keys[pygame.K_UP]:
         player_box.y = player_box.y - (base_movement_speed_per_millisecond * lapsed_milliseconds)
-    if keys[pygame.K_s]:
+    if keys[pygame.K_DOWN]:
         player_box.y = player_box.y + (base_movement_speed_per_millisecond * lapsed_milliseconds)
 
     if player_character.health <= 0:
