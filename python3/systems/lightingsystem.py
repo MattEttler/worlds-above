@@ -1,13 +1,17 @@
 from config import config
 import numpy as N
 import pygame
-from light import Light, lights
+from light import lights
 from boundingbox import bounding_boxes
 
 diffuse_distance = config.getint('Lighting', 'DiffusionDistance')
-intensity_loss_per_ms = config.getint('Lighting', 'IntensityLossPerSecond') / 1000
+intensity_loss_per_ms = config.getint(
+        'Lighting', 'IntensityLossPerSecond'
+        ) / 1000
 
-filter_surf = pygame.surfarray.make_surface(N.zeros((diffuse_distance, diffuse_distance, 3)))
+filter_surf = pygame.surfarray.make_surface(
+        N.zeros((diffuse_distance, diffuse_distance, 3))
+        )
 clean_whole_filter = None
 
 width = None
@@ -19,7 +23,11 @@ glow_height = None
 '''Create the full-brightness template used for drawing each light.'''
 
 
-def initialize_lighting_surface(mapSize: int, x1_scale_ratio: int, y1_scale_ratio: int):
+def initialize_lighting_surface(
+        mapSize: int,
+        x1_scale_ratio: int,
+        y1_scale_ratio: int
+        ):
     global filter_surf
     global glow_array
     global clean_whole_filter
@@ -34,7 +42,7 @@ def initialize_lighting_surface(mapSize: int, x1_scale_ratio: int, y1_scale_rati
     diffuse_x_scaled = int(diffuse_distance*x_scale_ratio)
     diffuse_y_scaled = int(diffuse_distance*y_scale_ratio)
     diffuse_img_size = int(N.sqrt((diffuse_x_scaled/2)**2
-            + (diffuse_y_scaled/2)**2))
+                                  + (diffuse_y_scaled/2)**2))
     arr = N.zeros((int(diffuse_img_size), int(diffuse_img_size), 3))
     for i in range(diffuse_img_size):
         for j in range(diffuse_img_size):
@@ -53,10 +61,16 @@ def initialize_lighting_surface(mapSize: int, x1_scale_ratio: int, y1_scale_rati
     pygame.Surface.fill(clean_whole_filter, pygame.Color('white'))
     filter_surf = pygame.surfarray.make_surface(arr).convert_alpha()
 
+
 def update_lights(lapsed_milliseconds: int):
     for entity in lights.keys():
-        if(lights[entity].intensity < 255):
-            lights[entity].intensity = min(255, lights[entity].intensity + intensity_loss_per_ms * lapsed_milliseconds)
+        if lights[entity].intensity < 255:
+            lights[entity].intensity = min(
+                    255,
+                    lights[entity].intensity
+                    + intensity_loss_per_ms
+                    * lapsed_milliseconds
+                    )
 
 
 '''draw each light to the screen.'''
@@ -84,6 +98,14 @@ def render_lights(screen, x_scale_ratio: int, y_scale_ratio: int):
             None,
             pygame.BLEND_RGBA_MULT
             ))
-        pygame.Surface.fill(intensity_filter, (lights[entity].intensity, lights[entity].intensity, lights[entity].intensity), special_flags=pygame.BLEND_RGB_ADD)
+        pygame.Surface.fill(
+                intensity_filter,
+                    (
+                    lights[entity].intensity,
+                    lights[entity].intensity,
+                    lights[entity].intensity
+                    ),
+                special_flags=pygame.BLEND_RGB_ADD
+                )
     whole_filter.blits(tuple(blits_sequence))
     screen.blit(whole_filter, (0, 0), special_flags=pygame.BLEND_RGBA_SUB)
