@@ -41,6 +41,7 @@ import lightingsystem
 import lightspawnsystem
 import sharkspawnsystem
 import characterlightcollisionsystem
+import boundingboxvelocitysystem
 
 ####################################
 # Initialize the state of the game #
@@ -107,6 +108,7 @@ while gamestatemanager.game_state is not GameState.QUIT:
             .update_character_containable_collisions()
         lightingsystem.update_lights(DELTA_TIME_MILLISECONDS)
         characterlightcollisionsystem.update_character_light_collisions()
+        boundingboxvelocitysystem.apply_velocities_to_bounding_boxes(DELTA_TIME_MILLISECONDS)
 
         # Graphical Updates
         screen.fill((10, 10, 80))

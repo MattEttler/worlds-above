@@ -7,4 +7,4 @@ class Velocity():
     y_delta_per_millisecond: int = 0
 
 
-velocities: dict(Velocity)
+velocities: dict[Velocity] = {}
