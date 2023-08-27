@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Light():
-    pass
+    intensity: int = 0
+
 
 lights: dict[Light] = {}

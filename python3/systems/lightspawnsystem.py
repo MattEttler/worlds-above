@@ -19,6 +19,8 @@ def spawn_lights(mapSize):
     print(lights.keys())
     # randomly scatter the rest of the lights across the map.
     scattered_lights = {entitymanager.create_entity(): Light() for i in range(light_count-1)}
+    for light in scattered_lights:
+        scattered_lights[light].intensity = 0
     lights.update(scattered_lights)
     bounding_boxes.update({entity: BoundingBox(random.randint(0, mapSize), random.randint(0, mapSize), width, height, 255, 255, 255) for entity in scattered_lights.keys()})
 

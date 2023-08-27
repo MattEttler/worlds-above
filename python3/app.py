@@ -39,6 +39,7 @@ import oxygentankspawnsystem
 import charactercontainablecollisionsystem
 import lightingsystem
 import lightspawnsystem
+import characterlightcollisionsystem
 
 ####################################
 # Initialize the state of the game #
@@ -102,6 +103,8 @@ while gamestatemanager.game_state is not GameState.QUIT:
         playersystem.update_player(playerId, DELTA_TIME_MILLISECONDS)
         charactercontainablecollisionsystem \
             .update_character_containable_collisions()
+        lightingsystem.update_lights(DELTA_TIME_MILLISECONDS)
+        characterlightcollisionsystem.update_character_light_collisions()
 
         # Graphical Updates
         screen.fill((10, 10, 80))
