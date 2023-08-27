@@ -39,6 +39,7 @@ import oxygentankspawnsystem
 import charactercontainablecollisionsystem
 import lightingsystem
 import lightspawnsystem
+import sharkspawnsystem
 import characterlightcollisionsystem
 
 ####################################
@@ -79,6 +80,7 @@ while gamestatemanager.game_state is not GameState.QUIT:
         charactersystem.bootstrap_characters(mapSize)
         playerId = playersystem.bootstrap(mapSize)
         lightspawnsystem.bootstrap_lights(mapSize)
+        sharkspawnsystem.spawn_sharks(mapSize)
         gamestatemanager.game_state = GameState.RUNNING
         screen.fill((10, 10, 80))
         welcome_text = hud_font.render(
