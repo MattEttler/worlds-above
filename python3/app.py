@@ -111,6 +111,9 @@ while gamestatemanager.game_state is not GameState.QUIT:
         boundingboxsystem.render(screen, screenWidth/mapSize, screenHeight/mapSize)
         lightingsystem.render_lights(screen, screenWidth/mapSize, screenHeight/mapSize)
         playersystem.render_hud(playerId, hud_font, screen)
+        fps_text = hud_font.render(f"FPS: {int(clock.get_fps())}",
+                                   fgcolor=(0, 255, 0))
+        screen.blit(fps_text[0], [screenWidth-fps_text[1].width, fps_text[1].height])
         pygame.display.flip()
 
         DELTA_TIME_MILLISECONDS = clock.tick(60)
