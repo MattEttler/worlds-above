@@ -52,7 +52,12 @@ def despawn_sharks(mapSize: int):
     off_map_sharks = []
     for i in infinite_drifters.keys():
         box = bounding_boxes[i]
-        if box.x > mapSize + box.width or box.x < box.width * -1 or box.y > mapSize + box.height or box.y < box.height * -1:
+        if (
+                box.x > mapSize + box.width
+                or box.x < box.width * -1
+                or box.y > mapSize + box.height
+                or box.y < box.height * -1
+                ):
             off_map_sharks.append(i)
     delete_components(off_map_sharks)
 
