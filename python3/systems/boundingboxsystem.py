@@ -10,15 +10,15 @@ def overlaps(bounding_box1: BoundingBox, bounding_box2: BoundingBox):
 
 
 def render(screen, x_scale_ratio, y_scale_ratio):
+    boxes = []
     for bb in bounding_boxes.values():
-        pygame.draw.rect(
-                screen,
-                (bb.red, bb.green, bb.blue),
-                pygame.Rect(
-                    bb.x*x_scale_ratio,
-                    bb.y*y_scale_ratio,
-                    bb.width*x_scale_ratio,
-                    bb.height*y_scale_ratio
-                    ),
-                bb.outline_size
-                )
+        box_surface = pygame.surface.Surface((
+                bb.width*x_scale_ratio,
+                bb.height*y_scale_ratio
+            ),
+            pygame.SRCALPHA)
+        box_surface.fill((bb.red, bb.green, bb.blue))
+        box_surface = pygame.transform.rotate(box_surface, float(bb.rotation_degrees))
+        boxes.append((box_surface,
+                     (bb.x*x_scale_ratio, bb.y*y_scale_ratio)))
+    screen.blits(boxes)
