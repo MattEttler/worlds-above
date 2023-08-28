@@ -41,6 +41,7 @@ import lightingsystem
 import lightspawnsystem
 import sharkspawnsystem
 import characterlightcollisionsystem
+import characterdamagingcollisionsystem
 import boundingboxvelocitysystem
 
 ####################################
@@ -110,7 +111,7 @@ while gamestatemanager.game_state is not GameState.QUIT:
         boundingboxvelocitysystem.apply_velocities_to_bounding_boxes(DELTA_TIME_MILLISECONDS)
         sharkspawnsystem.despawn_sharks(mapSize)
         sharkspawnsystem.spawn_sharks(mapSize)
-
+        characterdamagingcollisionsystem.update_character_damager_collisions(DELTA_TIME_MILLISECONDS)
         # Graphical Updates
         screen.fill((10, 10, 80))
         boundingboxsystem.render(screen, screenWidth/mapSize, screenHeight/mapSize)

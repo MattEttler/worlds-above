@@ -4,6 +4,7 @@ from entitymanager import create_entity
 from boundingbox import BoundingBox, bounding_boxes
 from velocity import Velocity, velocities
 from infinitedrifter import InfiniteDrifter, infinite_drifters
+from damaging import Damaging, damagers
 
 COUNT = config.getint('SHARK', 'SharkCount')
 WIDTH = config.getint('SHARK', 'SharkWidth')
@@ -16,6 +17,10 @@ BASEMOVEMENTPERSECOND = config.getint(
         'SHARK',
         'SharkBaseMovementSpeedPerSecond'
         )
+DMG_PER_MS = config.getint(
+        'SHARK',
+        'SharkDamagePerSecond'
+        ) / 1000
 
 
 '''Spawn Sharks randomly across the map.'''
@@ -43,6 +48,7 @@ def spawn_sharks(mapSize: int):
                 GREEN,
                 BLUE
                 )
+        damagers[entity] = Damaging(DMG_PER_MS)
 
 
 '''Respawn sharks that wander off the screen.'''
@@ -70,3 +76,4 @@ def delete_components(entities: list[int]):
         del bounding_boxes[i]
         del infinite_drifters[i]
         del velocities[i]
+        del damagers[i]
