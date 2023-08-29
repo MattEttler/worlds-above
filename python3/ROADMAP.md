@@ -5,7 +5,7 @@
 --3. Add CharacterOxygenSystem--
 --4. Add Lighting--
 --5. Add Shark-Despawn/respawn--
-6. Add Shark/Character Collision
+--6. Add Shark/Character Collision--
 7. Add Shark/Targeting
 
 # MISC
