@@ -6,6 +6,7 @@ from entitymanager import create_entity, clear_entities
 from boundingboxsystem import overlaps
 from container import Container, containers
 from oxygentank import oxygen_tanks
+from meat import Meat, meats
 
 # load character configurations
 number_of_characters = config.getint('Characters', 'NumberOfCharacters')
@@ -26,15 +27,17 @@ def create_character(character: Character, bounding_box: BoundingBox, container:
     characters[entity] = character
     bounding_boxes[entity] = bounding_box
     containers[entity] = container
+    meats[entity] = Meat()
     return entity
 
 
 def delete_characters(player_ids={}):
     clear_entities(player_ids)
     for i in {c for c in player_ids}:
-        characters.pop(i, None)
-        bounding_boxes.pop(i, None)
-        containers.pop(i, None)
+        del characters[i]
+        del bounding_boxes[i]
+        del containers[i]
+        del meats[i]
 
 
 def bootstrap_characters(mapSize):
